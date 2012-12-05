@@ -486,6 +486,7 @@ class App:
         selectionFrame.pack(side = Tkinter.BOTTOM)
         hidingFrame = Tkinter.Frame(selectionFrame)
         hidingFrame.pack(side = Tkinter.TOP)
+        # Modes of Operation
         Tkinter.Radiobutton(hidingFrame, text="Hide", variable = hideOrNot, value = 0).pack(side=Tkinter.LEFT)
         Tkinter.Radiobutton(hidingFrame, text="Retrieve", variable = hideOrNot, value = 1).pack(side=Tkinter.RIGHT)
         
@@ -500,6 +501,7 @@ class App:
         
         extension = Tkinter.StringVar()
         extension.set("png") #Default Initialization
+        # Radio Buttons for Image Formats
         Tkinter.Radiobutton(selectionFrame, text="PNG", variable = extension, value = "png").pack(side=Tkinter.LEFT)
         Tkinter.Radiobutton(selectionFrame, text="BMP", variable = extension, value = "bmp").pack(side=Tkinter.LEFT)
         Tkinter.Radiobutton(selectionFrame, text="GIF", variable = extension, value = "gif").pack(side=Tkinter.LEFT)
@@ -508,10 +510,10 @@ class App:
         bottomFrame = Tkinter.Frame(root)
         bottomFrame.pack(side = Tkinter.BOTTOM)
         
-        self.quitButton = Tkinter.Button(bottomFrame, text="QUIT", fg="red", command=frame.quit)
+        self.quitButton = Tkinter.Button(bottomFrame, text="QUIT", fg="red", command=frame.quit) # Quit Button
         self.quitButton.pack(side=Tkinter.BOTTOM)
         
-        self.hi_there = Tkinter.Button(bottomFrame, text="ENGAGE", command=lambda: App.engage(self, hideOrNot, extension))
+        self.hi_there = Tkinter.Button(bottomFrame, text="ENGAGE", command=lambda: App.engage(self, hideOrNot, extension)) # Start Button
         self.hi_there.pack(side=Tkinter.BOTTOM)
 
     def engage(self, hideOrNot, extension):
@@ -519,9 +521,9 @@ class App:
         ext = extension.get()
         
         if hidey == 0:
-            imageFile = tkFileDialog.askopenfilename(title="Hiding: Choose Image File")
-            dataFile = tkFileDialog.askopenfilename(title="Hiding: Choose Data File")
-            errorCode = HerpHandler(hidey, imageFile, ext, dataFile)
+            imageFile = tkFileDialog.askopenfilename(title="Hiding: Choose Image File") # Get the image file from the user
+            dataFile = tkFileDialog.askopenfilename(title="Hiding: Choose Data File") # Get the data file from the user
+            errorCode = HerpHandler(hidey, imageFile, ext, dataFile) # Handle Operational Errors
             if errorCode == 1:
                 tkMessageBox.showerror("Error",  "The image does not match the chosen image type!")
             elif errorCode == 2:
@@ -535,8 +537,8 @@ class App:
             else:
                 tkMessageBox.showinfo("Operation Complete", "Hiding Complete")
         else:
-            imageFile = tkFileDialog.askopenfilename(title="Retrieving: Choose Image File")
-            errorCode = HerpHandler(hidey, imageFile, ext, None)
+            imageFile = tkFileDialog.askopenfilename(title="Retrieving: Choose Image File") # Get the image file from the user
+            errorCode = HerpHandler(hidey, imageFile, ext, None) # Handle Operational Errors
             if errorCode == 1:
                 tkMessageBox.showerror("Error", "The image does not match the chosen image type!")
             elif errorCode == 2:
@@ -553,4 +555,4 @@ class App:
 if __name__=='__main__':
     root = Tkinter.Tk()
     app = App(root)
-    root.mainloop()
+    root.mainloop() # Run Program
