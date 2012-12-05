@@ -37,6 +37,7 @@ class Testing(unittest.TestCase):
         
     def testHandler(self):
         #These errors are all caught in HerpHandler, so check to see it returns the correct value for the exception
+        print "\nHandler Tests"
         self.assertEqual(3, HERPProgram.HerpHandler(0, "Nonexistent.png", "png", "Nonexistent.data")) #3 for IOError
         self.assertEqual(3, HERPProgram.HerpHandler(1, "Nonexistent.png", "png", None)) #returns 3 for IOError
         self.assertEqual(1, HERPProgram.HerpHandler(0, "TestBMP.bmp", "png", "testData.txt"))   #Returns 1 for ExtensionError
@@ -45,6 +46,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(1, HERPProgram.HerpHandler(0, "TestBMP.tiff", "bmp", "testData.txt"))   #Returns 1 for ExtensionError
         
     def testDerper(self):
+        print "Derper Tests"
         #Open link to original data file
         #Hide Data in a png
         self.assertEqual(71, len(self.data)), "Before First Hiding"

@@ -15,10 +15,18 @@
 # Tested on Mac OS X 10.7.5 (11G63) & Python 2.7.1
 # Tested on Mac OS X 10.8.2 (12C60) & Python 2.7.3
 #************************** Instructions **************************
-# 
+# Hiding: Choose the image format, click engage. Then, select the
+# image, then the data file. When the program completes, the
+# generated file will be in the directory where the program was
+# launched from. The file will be called TotallNotHidden
+#
+# Retrieval: Choose the image format, click engage. Then, select
+# the image. When the program completes, the generated file will be
+# in the directory where the program was launched from. The file
+# will be called YourData
 #******************************************************************
 
-import os, sys, math, struct
+import os, sys, math, struct, time
 import Image
 import tkFileDialog
 import Tkinter
@@ -98,9 +106,11 @@ def HerpDerper(workImage, Dataz, extension):
     pixel = pixelMap[0,0] #The first pixel's value
     (width, height) = workImage.size #Retrieve the images height and width
 
+  ####################Retrieving#########################
     if len(Dataz) == 0:
-####################Retrieving#########################
+        timeBegin = time.time() #Start the timer
         if extension == "png":
+            print "PNG Retrieval"
             #First retrieve length of data from the first 32 bits
             numPixel = 0
             bitTracker = 0
@@ -142,7 +152,9 @@ def HerpDerper(workImage, Dataz, extension):
                     keyOne = math.ceil(((msgLen+4) * 8) / 3) #See paper p573-roy; +4 accounts for message length int
                     keyTwo = math.floor((width * height) / keyOne) #See above paper, spreads out data based on amount and image size
                     msgLen = msgLen * 8 #Convert to bits
+
         elif extension == "bmp":
+            print "BMP Retrieval"
             #First retrieve length of data from the first 32 bits
             numPixel = 0
             bitTracker = 0
@@ -183,6 +195,7 @@ def HerpDerper(workImage, Dataz, extension):
                     msgLen = msgLen * 8 #Convert to bits
         
         elif extension == "tiff":
+            print "TIFF Retrieval"
             #First retrieve length of data from the first 32 bits
             numPixel = 0
             bitTracker = 0
@@ -221,6 +234,7 @@ def HerpDerper(workImage, Dataz, extension):
                     msgLen = msgLen * 8 #Convert to bits
     
         elif extension == "gif":
+            print "GIF Retrieval"
             #First retrieve length of data from the first 32 bits
             numPixel = 0
             bitTracker = 0
@@ -268,8 +282,12 @@ def HerpDerper(workImage, Dataz, extension):
             bitTracker = bitTracker + 8
         dataOutput = open("YourData", 'wb')
         dataOutput.write(allDataz)
-########################Hiding#########################
+        timeEnd = time.time() #End the timer
+        print "Retrieval Operation took %0.3f ms" % ((timeEnd-timeBegin)*1000)
+
+  ########################Hiding#########################
     elif len(Dataz) > 0:
+        timeBegin = time.time() #Start the timer
         #Need to turn data length into binary data; first thing to be hidden
         binData = bin(len(Dataz))[2:] #Stuff in brackets is to strip off unnecessary 0b at start
         while len(binData) < 32: #Add back in the leading zeroes that were stripped
@@ -292,8 +310,7 @@ def HerpDerper(workImage, Dataz, extension):
           
         if extension == "png":
             print "PNG Hiding"
-            print "We can fit this much data in KB!"
-            print (((width*height*3)/8) - 4)/1024
+            print "We can fit this much data in KB: %s" % ((((width*height*3)/8) - 4)/1024)
             keyOne = math.ceil(((DataLength+4) * 8) / 3) #See paper p573-roy; +4 accounts for message length int
             keyTwo = math.floor((width * height) / keyOne) #See above paper, spreads out data based on amount and image size
             #Insert data after every keyTwo pixels
@@ -334,8 +351,7 @@ def HerpDerper(workImage, Dataz, extension):
         
         elif extension == "bmp":
             print "BMP Hiding"
-            print "We can fit this much data in KB!"
-            print (((width*height*3-6)/8) - 4)/1024
+            print "We can fit this much data in KB: %s" % ((((width*height*3-6)/8) - 4)/1024)
             i = 0
             j = 0
             trackBits = 0
@@ -371,8 +387,7 @@ def HerpDerper(workImage, Dataz, extension):
                   
         elif extension == "tiff":
             print "TIFF Hiding"
-            print "We can fit this much data in KB!"
-            print (((width*height*3)/8) - 4)/1024
+            print "We can fit this much data in KB: %s" % ((((width*height*3)/8) - 4)/1024)
             i = 0
             j = 0
             trackBits = 0
@@ -406,8 +421,7 @@ def HerpDerper(workImage, Dataz, extension):
 
         elif extension == "gif":
             print "GIF Hiding"
-            print "We can fit this much data in KB!"
-            print ((((width*height - 1)/8) - 4)/1024) #Use many less pixels
+            print "We can fit this much data in KB: %s" % (((((width*height - 1)/8) - 4)/1024)) #Use a lot less pixels
             i = 0
             j = 0
             trackBits = 0
@@ -454,11 +468,13 @@ def HerpDerper(workImage, Dataz, extension):
         else:
             print "Should not have gotten here, please consult the developers immediately..."
         workImage.save("TotallyNotHidden."+extension, extension)
+        timeEnd = time.time() #End the timer
+        print "Hiding Operation took %0.3f ms" % ((timeEnd-timeBegin)*1000)
     else:
         #Quit because something is broken in regards to the bytearray
         raise OutOfBoundsError("Error Detected: Out of Bounds Error!")
 
-#GUI Definition
+#GUI Definition, mainly boilerplate code
 class App:
     def __init__(self, master):
         
