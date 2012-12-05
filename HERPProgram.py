@@ -62,7 +62,7 @@ class OutOfBoundsError(Error):
 #Function to handle all input/output/errors/derping
 def HerpHandler(hideOrNot, imageName, extension, dataPath):
     try:
-        if extension != imageName[-3:]:
+        if extension[-3:] != imageName[-3:]:
             raise ExtensionError("The image does not match the chosen image type!")
     except ExtensionError as e:
         print "Error Detected:", e.msg
