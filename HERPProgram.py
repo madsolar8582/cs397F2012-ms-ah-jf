@@ -18,7 +18,7 @@
 # Hiding: Choose the image format, click engage. Then, select the
 # image, then the data file. When the program completes, the
 # generated file will be in the directory where the program was
-# launched from. The file will be called TotallNotHidden
+# launched from. The file will be called TotallyNotHidden
 #
 # Retrieval: Choose the image format, click engage. Then, select
 # the image. When the program completes, the generated file will be
