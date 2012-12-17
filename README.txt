@@ -3,7 +3,7 @@ Python Imaging Library(PIL): http://www.pythonware.com/products/pil/
 TkInter: http://wiki.python.org/moin/TkInter (Should be installed by default) 
 PyUnit: http://pyunit.sourceforge.net/ (Should be installed by default)
 
-Files: The files in the folder are required for the unit tests and the main program, so please do not remove them. You are free to add any files inside the folder for convenience.
+Files: The files in the folder are required for the unit tests and the main program, so please do not remove them. You are free to add any files inside the folder for convenience. However, please take full read/write ownership of everything in the folder. This makes sure the program can output images correctly.
 
 HERPProgram.py
 Runthe file and choose your operation:
